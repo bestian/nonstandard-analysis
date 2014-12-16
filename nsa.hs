@@ -1,42 +1,37 @@
+import Ratio
 
-c10 :: [Float]
 c10 = [1..]
 
+m = map (\x -> 10 ^ x) c10
 
-m :: [Float]
-m = map (\x -> 10 ** x) c10
 
 plus a b = a + b
 minus a b = a - b
 times a b = a * b
 divides a b = a / b
-exp a b = a ** b
-to a b = a ** b
+to a b = a ^ b
 
-pw :: (Float -> Float -> Float) -> [Float] -> [Float] -> [Float]
 pw o x y = map (\k -> (x!!k) `o` (y!!k)) [0..]
-
-pw1 :: (Float -> Float) -> [Float] ->  [Float]
-pw1 f x = map (\k -> f (x!!k)) [0..] 
-
-
-c :: Float -> [Float]
-c k = pw1 (\x -> (logBase k 10) * x) c10
-
-
-
-pw2 :: (Float -> Float -> Float) -> [Float] -> [Float] -> [Float]
 pw2 = pw
 
+
+pw1 f x = map (\k -> f (x!!fromIntegral k)) [0..] 
 
 l :: a -> [a]
 l = iterate id
 
 
-eq :: [Float] -> [Float] -> Bool
 eq x y = take 10 x == take 10 y
 
+{-
+c k = pw1 (\x -> (logBase k 10) * x) c10
 
+
+
+-}
+
+
+{-
 main = do
 		print " Compeletes:"
 		print ""
@@ -66,3 +61,5 @@ main = do
 		print ""
 		print " take 50 (pw logBase (l 10) m)"
 		print $ take 50 (pw logBase (l 10) m)
+
+	-}
