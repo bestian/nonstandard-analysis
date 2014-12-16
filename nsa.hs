@@ -1,32 +1,55 @@
 import Ratio
 
+c10 :: [Integer]
 c10 = [1..]
 
-m = map (\x -> 10 ^ x) c10
+m = iterate (*10) 1
+--m = map (\x -> 10 ^ x) c10
 
+el = map (1/) m
+--el = map (\x -> 1/ (10^x)) m
 
-plus a b = a + b
-minus a b = a - b
-times a b = a * b
-divides a b = a / b
-to a b = a ^ b
 
 pw o x y = map (\k -> (x!!k) `o` (y!!k)) [0..]
 pw2 = pw
 
-
 pw1 f x = map (\k -> f (x!!fromIntegral k)) [0..] 
+
+
 
 l :: a -> [a]
 l = iterate id
+one = l 1
+
+part = take 10
+far = takeWhile (\x -> (x + 1/x) < 10^100)
+eq x y =  part x == part y
 
 
-eq x y = take 10 x == take 10 y
+
+geo [0] = one
+
+{-
+geo [1] = m
+geo [2,3] = 2*m*3*m
+geo [4,5,6] = 4*m*5*m*6*m
+
+-}
+
+main = do
+		print " Compeletes:"
+		print " part c10:"
+		print $ part c10
+		print " part m:"
+		print $ part m
+		print " part el:"
+		print $ part el
+		print " part $ pw (*) m el"
+		print $ part $ pw (*) m el
+
 
 {-
 c k = pw1 (\x -> (logBase k 10) * x) c10
-
-
 
 -}
 
