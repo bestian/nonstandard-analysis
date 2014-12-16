@@ -1,15 +1,19 @@
 import Ratio
 
-c10 :: [Integer]
-c10 = [1..]
+c :: [Double]
+c = [1..]
 
+inf = 1/0
+
+m :: [Double]
 m = iterate (*10) 1
 --m = map (\x -> 10 ^ x) c10
 
+el :: [Double]
 el = map (1/) m
 --el = map (\x -> 1/ (10^x)) m
 
-
+pw :: (Double -> Double -> Double) -> [Double] -> [Double] -> [Double]
 pw o x y = map (\k -> (x!!k) `o` (y!!k)) [0..]
 pw2 = pw
 
@@ -22,8 +26,10 @@ l = iterate id
 one = l 1
 
 
-st x = x !! 100000
-
+st x = case x of 
+		[] -> 100
+		c -> inf
+		otherwise -> x !! 100000
 
 part = take 10
 far = takeWhile (\x -> (x + 1/x) < 10^100)
@@ -42,8 +48,8 @@ geo [4,5,6] = 4*m*5*m*6*m
 
 main = do
 		print " Compeletes:"
-		print " part c10:"
-		print $ part c10
+		print " part c:"
+		print $ part c
 		print " part m:"
 		print $ part m
 		print " part el:"
