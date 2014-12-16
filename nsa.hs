@@ -21,6 +21,10 @@ l :: a -> [a]
 l = iterate id
 one = l 1
 
+
+st x = x !! 100000
+
+
 part = take 10
 far = takeWhile (\x -> (x + 1/x) < 10^100)
 eq x y =  part x == part y
