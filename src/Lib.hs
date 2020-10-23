@@ -9,6 +9,9 @@ type Exreal = Ex Double
 instance (Eq a, Num a) => Eq (Ex a) where
     Inf == Inf = True
     Infsimal == Infsimal = True
+    Infsimal == Ju 0 = True
+    Ju 0 == Infsimal = True
+    Ju 0 == Negate Infsimal = True
     Ju a == Ju b = a == b
     Negate x == Negate y = x == y
     _ == _ = False
@@ -18,11 +21,12 @@ instance (Ord a, Num a) => Ord (Ex a) where
     Inf `compare` _ = GT
     Infsimal `compare` Infsimal = EQ
     Infsimal `compare` (Ju a) | a > 0     = LT
-                              | a == 0    = GT
+                              | a == 0    = EQ
                               | otherwise = GT
     (Ju a) `compare` Infsimal | a < 0     = LT
-                              | a == 0    = LT
+                              | a == 0    = EQ
                               | otherwise = GT
+    Infsimal `compare` (Negate Infsimal) = EQ
     Infsimal `compare` (Negate _) = GT
     Negate Infsimal `compare` (Negate Infsimal) = EQ
     Negate Infsimal `compare` (Negate _) = GT
