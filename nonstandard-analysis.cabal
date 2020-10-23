@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 254d272ebda637bf013b510de2a48dcecba516a6ad64b7ddd0ad07f0938d5d5f
+
+name:           nonstandard-analysis
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/bestian/nonstandard-analysis#readme>
+homepage:       https://github.com/bestian/nonstandard-analysis#readme
+bug-reports:    https://github.com/bestian/nonstandard-analysis/issues
+author:         Bestian Tang
+maintainer:     bestian@gmail.com
+copyright:      2020 Bestian@gmail.com
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/bestian/nonstandard-analysis
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_nonstandard_analysis
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable nonstandard-analysis-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_nonstandard_analysis
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , nonstandard-analysis
+  default-language: Haskell2010
+
+test-suite nonstandard-analysis-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_nonstandard_analysis
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , nonstandard-analysis
+  default-language: Haskell2010
