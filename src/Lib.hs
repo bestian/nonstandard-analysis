@@ -90,7 +90,7 @@ instance Fractional t => Fractional (Hyper t) where
  
 hP :: (t -> Bool) -> Hyper t -> Bool
 hP p (J a) = p a
-hP p (L xs) = all p (take 10 (dropWhile (\x -> not (p x)) xs))
+hP p (L xs) = all p (take 20 (drop 20 xs))
 
 hMap :: (t -> t0) -> Hyper t  -> Hyper t0 
 hMap f (J a) = J (f a)
