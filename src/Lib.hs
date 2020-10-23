@@ -19,6 +19,7 @@ instance (Eq a, Num a) => Eq (Ex a) where
 instance (Ord a, Num a) => Ord (Ex a) where
     Inf `compare` Inf = EQ
     Inf `compare` _ = GT
+    _ `compare` Inf = LT
     Infsimal `compare` Infsimal = EQ
     Infsimal `compare` (Ju a) | a > 0     = LT
                               | a == 0    = EQ
