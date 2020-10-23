@@ -1,6 +1,6 @@
 module Lib
     (   Ex(Inf, Infsimal, Ju, Negate), Exreal,
-        Hyper(J, L), Hyperreal, hP, hMap, n, m, el
+        Hyper(J, L), Hyperreal, hP, hMap, n, m, el, st
     ) where
 
 data Ex a = Inf | Infsimal | Ju a | Negate (Ex a)
@@ -92,6 +92,15 @@ instance Num t => Num (Hyper t) where
     negate (L a) = hMap negate (L a)
     fromInteger a = J (fromInteger a)
 
+instance Enum t => Enum (Hyper t) where
+    succ (J x) = J (succ x)
+    succ (L a) = hMap succ (L a)
+    pred (J x) = J (pred x)
+    pred (L a) = hMap pred (L a)
+    toEnum x = J (toEnum x)
+    fromEnum (J x) = fromEnum x
+    fromEnum (L a) = (map fromEnum a) !! 100
+
 instance Fractional t => Fractional (Hyper t) where
     recip (J a) = J (recip a)
     recip (L a) = hMap recip (L a)
@@ -105,13 +114,20 @@ hMap :: (t -> t0) -> Hyper t  -> Hyper t0
 hMap f (J a) = J (f a)
 hMap f (L xs) = L (map f xs)
 
+st :: (Num t, Ord t, Enum t) => Hyper t -> Ex t
+st (J x) = Ju x
+st (L a) | (L a) >= n   = Inf
+         | -(L a) >= n  = Negate Inf
+         | (L a) * n <= 1 && (L a) > 0 = Infsimal
+         | (L a) * n <= 1 && (L a) < 0 = Negate Infsimal
+         | otherwise = Ju (a !! 1000000)
 
-n :: Hyperreal
+n :: (Num t, Enum t) => Hyper t
 n = L [1..]
 
-m :: Hyperreal
+m :: (Num t) => Hyper t
 m = L $ iterate (*10) 1
 
-el :: Hyperreal
+el :: (Fractional t) => Hyper t
 el = hMap (1/) m
 
