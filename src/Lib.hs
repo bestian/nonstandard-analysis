@@ -3,8 +3,16 @@ module Lib
         Hyper(J, L), Hyperreal, hP, hMap, n, m, el
     ) where
 
-data Num a => Ex a = Inf | Infsimal | Ju a | Negate (Ex a) deriving Show
+data Ex a = Inf | Infsimal | Ju a | Negate (Ex a)
 type Exreal = Ex Double
+
+instance (Show a, Num a) => Show (Ex a) where
+    show Inf = "Infinity"
+    show Infsimal = "Infsimal"
+    show (Ju x) = show x
+    show (Negate Inf) = "-Infinity"
+    show (Negate Infsimal) = "-Infsimal"
+    show (Negate (Ju x)) = show (-x)
 
 instance (Eq a, Num a) => Eq (Ex a) where
     Inf == Inf = True
@@ -91,7 +99,7 @@ instance Fractional t => Fractional (Hyper t) where
  
 hP :: (t -> Bool) -> Hyper t -> Bool
 hP p (J a) = p a
-hP p (L xs) = all p (take 20 (drop 20 xs))
+hP p (L xs) = all p (take 5 (drop 5 xs))
 
 hMap :: (t -> t0) -> Hyper t  -> Hyper t0 
 hMap f (J a) = J (f a)
