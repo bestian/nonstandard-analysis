@@ -49,7 +49,7 @@ type Hyperreal = Hyper Double
 
 instance Show t => Show (Hyper t) where
     show (J a) = show a
-    show (L xs) = show (take 10 xs) ++ "..."
+    show (L xs) = init (show (take 10 xs)) ++ "...]"
 
 instance Eq t => Eq (Hyper t) where
     (J a) == (J b) = a == b
@@ -99,7 +99,32 @@ instance Enum t => Enum (Hyper t) where
     pred (L a) = hMap pred (L a)
     toEnum x = J (toEnum x)
     fromEnum (J x) = fromEnum x
-    fromEnum (L a) = (map fromEnum a) !! 100
+    fromEnum (L a) = (map fromEnum a) !! 10000
+
+instance Real t => Real (Hyper t) where
+    toRational (J x) = toRational x
+    toRational (L xs) = toRational (xs !! 10000)
+
+instance Integral t => Integral (Hyper t) where
+    toInteger (J x) = toInteger x
+    toInteger (L xs) = toInteger (xs !! 10000)
+    (J a) `divMod` (J b) = (J (fst or), J (snd or))
+        where or = a `divMod` b
+    (J a) `divMod` (L bs) = (L $ map fst or, L $ map snd or)
+        where or = map (\b -> a `divMod` b) bs
+    (L as) `divMod` (J b) = (L $ map fst or, L $ map snd or)
+        where or = map (\a -> a `divMod` b) as
+    (L as) `divMod` (L bs) = (L $ map fst or, L $ map snd or)
+        where or = zipWith divMod as bs
+    (J a) `quotRem` (J b) = (J (fst or), J (snd or))
+        where or = a `quotRem` b
+    (J a) `quotRem` (L bs) = (L $ map fst or, L $ map snd or)
+        where or = map (\b -> a `quotRem` b) bs
+    (L as) `quotRem` (J b) = (L $ map fst or, L $ map snd or)
+        where or = map (\a -> a `quotRem` b) as
+    (L as) `quotRem` (L bs) = (L $ map fst or, L $ map snd or)
+        where or = zipWith quotRem as bs
+
 
 instance Fractional t => Fractional (Hyper t) where
     recip (J a) = J (recip a)
@@ -120,7 +145,7 @@ st (L a) | (L a) >= n   = Inf
          | -(L a) >= n  = Negate Inf
          | (L a) * n <= 1 && (L a) > 0 = Infsimal
          | (L a) * n <= 1 && (L a) < 0 = Negate Infsimal
-         | otherwise = Ju (a !! 1000000)
+         | otherwise = Ju (a !! 10000)
 
 n :: (Num t, Enum t) => Hyper t
 n = L [1..]
